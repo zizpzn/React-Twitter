@@ -9,6 +9,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const Auth = () => {
       }
       console.log(data);
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   };
 
@@ -37,6 +38,10 @@ const Auth = () => {
     } else if (name === "password") {
       setPassword(value);
     }
+  };
+
+  const toggleAccount = () => {
+    setNewAccount((prev) => !prev);
   };
 
   return (
@@ -59,7 +64,11 @@ const Auth = () => {
           onChange={handleChange}
         />
         <input type="submit" value={newAccount ? "Create account" : "Login"} />
+        {error}
       </form>
+      <span onClick={toggleAccount}>
+        {newAccount ? "Login" : "Create account"}
+      </span>
       <button>Continu with Google</button>
     </div>
   );
