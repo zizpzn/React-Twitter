@@ -4,6 +4,8 @@ import { auth } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -44,6 +46,21 @@ const Auth = () => {
     setNewAccount((prev) => !prev);
   };
 
+  const handleClick = async (e) => {
+    console.log(e.target.name);
+
+    const {
+      target: { name },
+    } = e;
+
+    let provider;
+    if (name === "google") {
+      provider = new GoogleAuthProvider();
+    }
+    const data = await signInWithPopup(auth, provider);
+    console.log(data);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -69,7 +86,9 @@ const Auth = () => {
       <span onClick={toggleAccount}>
         {newAccount ? "Login" : "Create account"}
       </span>
-      <button>Continu with Google</button>
+      <button name="google" onClick={handleClick}>
+        Continu with Google
+      </button>
     </div>
   );
 };
